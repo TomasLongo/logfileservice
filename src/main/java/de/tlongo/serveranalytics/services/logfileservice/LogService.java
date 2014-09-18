@@ -1,19 +1,16 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -38,9 +35,11 @@ import static spark.Spark.*;
 public class LogService {
     static Logger logger = LoggerFactory.getLogger(LogService.class);
     static Properties properties;
+
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public static void main(String[] args) throws IOException {
+        initProperties();
         final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> System.out.println("Persisting..."), 0, 10, TimeUnit.SECONDS);
 
         get("/health", (request, response) -> {
@@ -53,14 +52,21 @@ public class LogService {
     }
 
 
-    static void persistLog() {
-        String logdirpath = System.getProperty("logdir");
+    static void persistLogEntries() throws IOException {
+        logger.info("Starting persisting log entries to db");
 
-        File logdir = new File(logdirpath);
-        if (!logdir.isDirectory()) {
-            logger.error("{} is not a directory.", logdirpath);
-            return;
-        }
+        String logdirPath = properties.getProperty("logfileservice.logdir");
+        File logDir = new File(logdirPath);
+
+        List<LogEntry> logEntryList = new ArrayList<>();
+        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(logDir.toPath());
+        
+        directoryStream.forEach(path -> {
+            File logFile = new File(path.toAbsolutePath().toString());
+            List<LogEntry> list = LogFileParser.parseLogFile(logFile);
+
+            logEntryList.addAll(list);
+        });
     }
 
     private static void initProperties() throws IOException {
