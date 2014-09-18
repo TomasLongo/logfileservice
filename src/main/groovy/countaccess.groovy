@@ -1,5 +1,5 @@
 #!/home/tomas/groovy-2.3.6/bin/groovy
-import de.tlongo.serveranalytics.AnalyticsResult
+import de.tlongo.serveranalytics.services.logfileservice.AnalyticsResult
 
 import java.time.format.DateTimeFormatter
 
