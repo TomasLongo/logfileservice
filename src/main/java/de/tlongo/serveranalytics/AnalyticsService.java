@@ -16,7 +16,7 @@ public class AnalyticsService {
     static GroovyShell groovyShell;
     public static void main(String[] args) throws IOException {
         Binding binding = new Binding();
-        String[] a = {};
+        String[] a = {"-qa"};
         binding.setVariable("args", a);
         groovyShell  = new GroovyShell(binding);
 
@@ -36,7 +36,6 @@ public class AnalyticsService {
                 return "We found " + result.articeleCount.size() + " articles in the logs";
             } catch (IOException e) {
                 return e.getStackTrace();
-
             }
         });
     }
