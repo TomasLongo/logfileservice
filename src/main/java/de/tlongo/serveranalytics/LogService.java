@@ -16,7 +16,11 @@ import static spark.Spark.*;
 /**
  * Created by tomas on 16.09.14.
  */
-public class AnalyticsService {
+
+/**
+ * Extracts relevant information from nginx log files and stores it in a database.
+ */
+public class LogService {
     static GroovyShell groovyShell;
     static Gson gson;
     public static void main(String[] args) throws IOException {
