@@ -1,17 +1,29 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * Created by Tomas Longo on 18.09.14.
  */
+
+@Entity(name="logentries")
 public class LogEntry {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+
     String address;
     String requestString;
+
+    public long getId() {
+        return id;
+    }
+
     String agent;
     LocalDateTime date;
     int status;
-
 
     @Override
     public String toString() {
