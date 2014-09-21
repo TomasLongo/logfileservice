@@ -56,17 +56,8 @@ public class LogService {
         logger.info("Starting persisting log entries to db");
 
         String logdirPath = properties.getProperty("logfileservice.logdir");
-        File logDir = new File(logdirPath);
 
-        List<LogEntry> logEntryList = new ArrayList<>();
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(logDir.toPath());
-
-        directoryStream.forEach(path -> {
-            File logFile = new File(path.toAbsolutePath().toString());
-            List<LogEntry> list = LogFileParser.parseLogFile(logFile);
-
-            logEntryList.addAll(list);
-        });
+        List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
 
         // persist List to db
     }

@@ -53,4 +53,15 @@ public class TestPersistence {
         long count = repo.count();
         assertThat(count, equalTo((long)logEntries.size()));
     }
+
+    @Test
+    public void testPersistParsedDirectory() throws Exception {
+        List<LogEntry> logEntries = LogFileParser.parseLogDirectory("src/test/logdir/");
+        logEntries.forEach(entry -> {
+            repo.save(entry);
+        });
+
+        long count = repo.count();
+        assertThat(count, equalTo((long)logEntries.size()));
+    }
 }
