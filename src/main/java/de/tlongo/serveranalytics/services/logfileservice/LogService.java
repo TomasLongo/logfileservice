@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -63,8 +64,9 @@ public class LogService {
     }
 
     private static void initProperties() throws IOException {
+        URL url = LogService.class.getClassLoader().getResource("config.properties");
         properties = new Properties();
-        BufferedInputStream stream = new BufferedInputStream(new FileInputStream("src/main/resources/testconfig.properties"));
+        BufferedInputStream stream = new BufferedInputStream(new FileInputStream(url.getFile()));
         properties.load(stream);
         stream.close();
     }
