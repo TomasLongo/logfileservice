@@ -33,15 +33,25 @@ public class LogFileParser {
             List<LogEntry> entryList = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new FileReader(logFile));
             String line = null;
-            while ((line = reader.readLine()) != null && !line.equals("")) {
+            while ((line = reader.readLine()) != null) {
+                if (line.isEmpty()) continue;
+
                 LogEntry entry = new LogEntry();
                 String[] tokens = line.split("@");
 
-                entry.setAddress(tokens[0]);
-                entry.setDate(LocalDateTime.parse(tokens[1], formatter));
-                entry.setRequestString(tokens[2]);
-                entry.setStatus(Integer.parseInt(tokens[3]));
-                entry.setAgent(tokens[4]);
+                if (tokens.length != 5) {
+                    // Trying to split this log line into its components by the delimeter '@'
+                    // caused an error because '@' was part of the line itself.
+                    // Mark entry as invalid in order to get some metrics on how often this
+                    // occurs. We might have to change the separator.
+                    entry.setStatus(-9999);
+                } else {
+                    entry.setAddress(tokens[0]);
+                    entry.setDate(LocalDateTime.parse(tokens[1], formatter));
+                    entry.setRequestString(tokens[2]);
+                    entry.setStatus(Integer.parseInt(tokens[3]));
+                    entry.setAgent(tokens[4]);
+                }
 
                 entryList.add(entry);
             }
@@ -64,16 +74,21 @@ public class LogFileParser {
         File dir = new File(logDir);
         if (!dir.isDirectory()) {
             logger.error("{} is not a directory", logDir);
+            return EMPTY_LIST;
         }
 
+        logger.info("Parsing log files in directory {}", dir.getAbsolutePath());
         try {
             List<LogEntry> logEntryList = new ArrayList<>();
             DirectoryStream<Path> directoryStream = Files.newDirectoryStream(dir.toPath());
             directoryStream.forEach(path -> {
                 File logFile = new File(path.toAbsolutePath().toString());
-                List<LogEntry> list = parseLogFile(logFile);
+                if (!logFile.isDirectory() && logFile.getName().contains("log")) {
+                    logger.info("Parsing logfile {}", logFile.getAbsolutePath());
+                    List<LogEntry> list = parseLogFile(logFile);
 
-                logEntryList.addAll(list);
+                    logEntryList.addAll(list);
+                }
             });
 
             return logEntryList;
