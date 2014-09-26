@@ -15,6 +15,8 @@ public class LogEntry {
     long id;
 
     String address;
+
+    @Column(length = 2048)
     String requestString;
 
     public long getId() {
