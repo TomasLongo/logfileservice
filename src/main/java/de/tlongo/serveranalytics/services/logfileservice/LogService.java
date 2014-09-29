@@ -97,6 +97,10 @@ public class LogService {
         });
         logger.info("Done persisting log entries");
 
+        clearLogDir(logdirPath);
+    }
+
+    private void clearLogDir(String logdirPath) {
         logger.info("Clearing log files from directory.");
 
         File dir = new File(logdirPath);
@@ -116,10 +120,10 @@ public class LogService {
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error deleting dir {}\n{}", logdirPath, e);
         }
-        logger.info("Done clearing log directory");
 
+        logger.info("Done clearing log directory");
     }
 
     private void initProperties() throws IOException {
