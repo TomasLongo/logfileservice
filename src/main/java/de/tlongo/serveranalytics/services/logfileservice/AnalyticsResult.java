@@ -1,4 +1,4 @@
-package de.tlongo.serveranalytics;
+package de.tlongo.serveranalytics.services.logfileservice;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
