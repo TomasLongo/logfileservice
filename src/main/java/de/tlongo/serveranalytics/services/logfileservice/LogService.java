@@ -68,7 +68,6 @@ public class LogService {
         logger.info("Spring is up and running");
 
         initProperties();
-        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), 10, 10, TimeUnit.SECONDS);
 
         get("/health", (request, response) -> {
             return "LogFileService alive";
@@ -77,6 +76,8 @@ public class LogService {
         get("/entries/currentdate", (request, response) -> {
             return "Log Entries from today";
         });
+
+        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), 10, 10, TimeUnit.SECONDS);
     }
 
 
@@ -94,8 +95,31 @@ public class LogService {
         logEntryList.forEach(entry -> {
             dao.save(entry);
         });
-
         logger.info("Done persisting log entries");
+
+        logger.info("Clearing log files from directory.");
+
+        File dir = new File(logdirPath);
+        DirectoryStream<Path> directoryStream = null;
+        try {
+            directoryStream = Files.newDirectoryStream(dir.toPath());
+            directoryStream.forEach(path -> {
+                File logFile = new File(path.toAbsolutePath().toString());
+                if (!logFile.isDirectory() && logFile.getName().contains("log")) {
+                    try {
+                        logger.info("deleting log file {}", logFile.getAbsolutePath());
+                        Files.delete(logFile.toPath());
+                    } catch (IOException e) {
+                        logger.error("Error deleting log file {}\n{}", logFile.getName(), e);
+                        throw new RuntimeException("Error deleting log file");
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Done clearing log directory");
+
     }
 
     private void initProperties() throws IOException {
