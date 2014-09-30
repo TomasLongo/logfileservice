@@ -45,7 +45,9 @@ public class TestLogFileParsing {
         assertThat(entry, notNullValue());
         assertThat(entry.getStatus(), is(301));
         assertThat(entry.getAddress(), equalTo("134.3.254.6"));
-        assertThat(entry.getRequestString(), equalTo("GET / HTTP/1.1"));
+        assertThat(entry.getRequestMethod(), equalTo("GET"));
+        assertThat(entry.getRequestProtocol(), equalTo("HTTP/1.1"));
+        assertThat(entry.getRequestUri(), equalTo("/"));
         assertThat(entry.getAgent(), equalTo("Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36"));
         assertThat(entry.getDate(), equalTo(LocalDateTime.parse("11/Sep/2014:22:00:58 +0200", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z"))));
 

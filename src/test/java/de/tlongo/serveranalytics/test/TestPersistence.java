@@ -52,6 +52,8 @@ public class TestPersistence {
 
         long count = repo.count();
         assertThat(count, equalTo((long)logEntries.size()));
+
+
     }
 
     @Test

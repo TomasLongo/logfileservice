@@ -16,8 +16,12 @@ public class LogEntry {
 
     String address;
 
-    @Column(length = 2048)
-    String requestString;
+    String requestMethod;
+
+    @Column(length = 1024)
+    String requestUri;
+
+    String requestProtocol;
 
     public long getId() {
         return id;
@@ -30,11 +34,14 @@ public class LogEntry {
     @Override
     public String toString() {
         return "LogEntry{" +
-                "address=" + address +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", requestMethod='" + requestMethod + '\'' +
+                ", requestUri='" + requestUri + '\'' +
+                ", requestProtocol='" + requestProtocol + '\'' +
+                ", agent='" + agent + '\'' +
                 ", date=" + date +
-                ", request=" + requestString +
                 ", status=" + status +
-                ", agent=" + agent +
                 '}';
     }
 
@@ -44,14 +51,6 @@ public class LogEntry {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getRequestString() {
-        return requestString;
-    }
-
-    public void setRequestString(String requestString) {
-        this.requestString = requestString;
     }
 
     public String getAgent() {
@@ -76,5 +75,29 @@ public class LogEntry {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public String getRequestUri() {
+        return requestUri;
+    }
+
+    public void setRequestUri(String requestUri) {
+        this.requestUri = requestUri;
+    }
+
+    public String getRequestProtocol() {
+        return requestProtocol;
+    }
+
+    public void setRequestProtocol(String requestProtocol) {
+        this.requestProtocol = requestProtocol;
     }
 }
