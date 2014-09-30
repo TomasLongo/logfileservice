@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = 1.8
-version = '0.0.2-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 
 mainClassName = "de.tlongo.serveranalytics.services.logfileservice.LogService"
 
