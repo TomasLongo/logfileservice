@@ -48,9 +48,17 @@ public class LogFileParser {
                 } else {
                     entry.setAddress(tokens[0]);
                     entry.setDate(LocalDateTime.parse(tokens[1], formatter));
-                    entry.setRequestString(tokens[2]);
                     entry.setStatus(Integer.parseInt(tokens[3]));
                     entry.setAgent(tokens[4]);
+
+                    String[] requestTokens = splitRequestString(tokens[2]);
+                    if (requestTokens.length != 3) {
+                        entry.setStatus(-9999);
+                    } else {
+                        entry.setRequestMethod(requestTokens[0]);
+                        entry.setRequestUri(requestTokens[1]);
+                        entry.setRequestProtocol(requestTokens[2]);
+                    }
                 }
 
                 entryList.add(entry);
@@ -63,6 +71,15 @@ public class LogFileParser {
             logger.error("Error parsing logfile {}\n{}", logFile.getAbsolutePath(), e);
             return EMPTY_LIST;
         }
+    }
+
+    private static String[] splitRequestString(String requestString) {
+        // tokens = [method, uri, protocol]
+        String[] tokens = requestString.split(" ");
+
+
+
+        return tokens;
     }
 
     /**
