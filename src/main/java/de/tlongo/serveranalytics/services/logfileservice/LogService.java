@@ -88,16 +88,38 @@ public class LogService {
         logger.info("Logfile directory is {}", logdirPath);
 
         logger.info("Parsing log files");
-        List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
+
+        if (properties.getProperty("logfileservice.persisting.perLogFile").equals("true")) {
+            logger.info("Processing and persisting log files one by one");
+            try {
+                Files.newDirectoryStream(new File(logdirPath).toPath()).forEach( path -> {
+                    File logFile = path.toFile();
+                    if (logFile.isFile() && path.toAbsolutePath().toString().contains("log")) {
+                        try {
+                            List<LogEntry> parsedEntries = LogFileParser.parseLogFile(path.toFile());
+                            dao.save(parsedEntries);
+                            Files.delete(path);
+                        } catch (IOException e) {
+                            logger.error("Error parsing logfile", e);
+                        }
+                    }
+                });
+            } catch (IOException e) {
+                logger.error("Error parsing logdir", e);
+            }
+        } else {
+            logger.info("Processing and persisting log files all at once");
+            List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
+            logger.info("Persisting {} entries to db.", logEntryList.size());
+            logEntryList.forEach(entry -> {
+                dao.save(entry);
+            });
+            clearLogDir(logdirPath);
+        }
 
 
-        logger.info("Persisting {} entries to db.", logEntryList.size());
-        logEntryList.forEach(entry -> {
-            dao.save(entry);
-        });
         logger.info("Done persisting log entries");
 
-        clearLogDir(logdirPath);
     }
 
     private void clearLogDir(String logdirPath) {
