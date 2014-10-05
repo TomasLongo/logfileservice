@@ -37,19 +37,18 @@ public class TestLogFileParsing {
         });
 
         assertThat(entries, notNullValue());
-        assertThat(entries.size(), is(24));
+        assertThat(entries.size(), is(79));
 
         // Check the first to see if the LogEntry object was built correctly
-        // 134.3.254.6@11/Sep/2014:22:00:58 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36
+        // 202.46.57.65@22/Sep/2014:02:57:07 +0200@GET / HTTP/1.1@301@Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)
         LogEntry entry = entries.get(0);
         assertThat(entry, notNullValue());
         assertThat(entry.getStatus(), is(301));
-        assertThat(entry.getAddress(), equalTo("134.3.254.6"));
+        assertThat(entry.getAddress(), equalTo("202.46.57.65"));
         assertThat(entry.getRequestMethod(), equalTo("GET"));
         assertThat(entry.getRequestProtocol(), equalTo("HTTP/1.1"));
         assertThat(entry.getRequestUri(), equalTo("/"));
-        assertThat(entry.getAgent(), equalTo("Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36"));
-        assertThat(entry.getDate(), equalTo(LocalDateTime.parse("11/Sep/2014:22:00:58 +0200", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z"))));
-
+        assertThat(entry.getAgent(), equalTo("Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)"));
+        assertThat(entry.getDate(), equalTo(LocalDateTime.parse("22/Sep/2014:02:57:07 +0200", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z"))));
     }
 }
