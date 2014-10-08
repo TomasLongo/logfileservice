@@ -69,15 +69,17 @@ public class LogService {
 
         initProperties();
 
-        get("/health", (request, response) -> {
-            return "LogFileService alive";
-        });
+//        get("/health", (request, response) -> {
+//            return "LogFileService alive";
+//        });
+//
+//        get("/entries/currentdate", (request, response) -> {
+//            return "Log Entries from today";
+//        });
 
-        get("/entries/currentdate", (request, response) -> {
-            return "Log Entries from today";
-        });
-
-        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), 10, 10, TimeUnit.SECONDS);
+        int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
+        logger.info("Service will scan directory every {} hours", scanIntervall);
+        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), 0, scanIntervall, TimeUnit.HOURS);
     }
 
 
