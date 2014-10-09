@@ -1,5 +1,7 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -28,6 +30,8 @@ public class LogEntry {
     }
 
     String agent;
+
+    @Type(type="de.tlongo.serveranalytics.services.logfileservice.LocalDateTimeUserType")
     LocalDateTime date;
     int status;
 
