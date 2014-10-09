@@ -42,12 +42,14 @@ public class TestPersistence {
     FooRepo fooRepo;
 
     @Before
-    public void foo() {
+    public void clearDatabase() {
         repo.deleteAll();
     }
 
     @Test
     public void testDatePersistence() throws Exception {
+        fooRepo.deleteAll();
+
         LocalDateTime current = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         Foo foo = new Foo(current);
         foo = fooRepo.save(foo);
@@ -55,19 +57,22 @@ public class TestPersistence {
         Foo fetched = fooRepo.findOne(foo.id);
         assertThat(fetched, notNullValue());
         assertThat(fetched.date, equalTo(current));
+
+        System.out.println(fetched.date.toString());
     }
 
     @Test
     public void testPersistLogEntry() throws Exception {
-        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime currentDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         LogEntry entry = new LogEntry();
         entry.setAgent("Mausi");
-        entry.setDate(currentDate);
+        entry.setDate(currentDateTime);
         repo.save(entry);
 
         LogEntry loaded = repo.findOne(entry.getId());
         assertThat(loaded, notNullValue());
         assertThat(loaded.getAgent(), equalTo("Mausi"));
+        assertThat(loaded.getDate(), equalTo(currentDateTime));
     }
 
     @Test
