@@ -38,5 +38,13 @@ installApp {
     }
 }
 
+distZip {
+    // copy the configs to external folder
+    into("$baseName-$version/lib/config") {
+        from 'src/main/resources'
+        include '*'
+    }
+}
+
 // Adde the config folder to the classpath of the config script
 startScripts.classpath += files("config")

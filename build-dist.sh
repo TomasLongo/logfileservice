@@ -1,1 +1,1 @@
-gradle --daemon clean test distZip -x ProcessResources
+gradle --daemon clean test distZip -x processResources
