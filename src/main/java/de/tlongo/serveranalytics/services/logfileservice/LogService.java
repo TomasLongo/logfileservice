@@ -47,6 +47,8 @@ public class LogService {
     Logger logger = LoggerFactory.getLogger(LogService.class);
     Properties properties;
 
+    private long entryCount = 0;
+
     @Autowired
     LogEntryRepository dao;
 
@@ -91,6 +93,8 @@ public class LogService {
 
         logger.info("Parsing log files");
 
+        entryCount = 0;
+
         if (properties.getProperty("logfileservice.persisting.perLogFile").equals("true")) {
             logger.info("Processing and persisting log files one by one");
             try {
@@ -99,6 +103,7 @@ public class LogService {
                     if (logFile.isFile() && path.toAbsolutePath().toString().contains("log")) {
                         try {
                             List<LogEntry> parsedEntries = LogFileParser.parseLogFile(path.toFile());
+                            entryCount += parsedEntries.size();
                             dao.save(parsedEntries);
                             Files.delete(path);
                         } catch (IOException e) {
@@ -120,8 +125,7 @@ public class LogService {
         }
 
 
-        logger.info("Done persisting log entries");
-
+        logger.info("Done persisting log {} entries", entryCount);
     }
 
     private void clearLogDir(String logdirPath) {
