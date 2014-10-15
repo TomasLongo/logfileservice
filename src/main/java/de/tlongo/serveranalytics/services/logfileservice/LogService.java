@@ -5,25 +5,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
-import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import static de.tlongo.serveranalytics.services.logfileservice.JsonBuilder.*;
 
 import static spark.Spark.*;
 
@@ -71,20 +67,30 @@ public class LogService {
 
         initProperties();
 
-//        get("/health", (request, response) -> {
-//            return "LogFileService alive";
-//        });
+        get("/health", (request, response) -> {
+            response.status(200);
+            return jsonDocument().
+                        property("message", "LogService Alive!").
+                        property("code", 200).
+                        create().toString();
+        });
 //
 //        get("/entries/currentdate", (request, response) -> {
 //            return "Log Entries from today";
 //        });
 
         int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
+        int startDelay = Integer.parseInt(properties.getProperty("logfileservice.startdelay"));
         logger.info("Service will scan directory every {} hours", scanIntervall);
-        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), 0, scanIntervall, TimeUnit.HOURS);
+        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), startDelay, scanIntervall, TimeUnit.HOURS);
     }
 
 
+    /**
+     * Starts the task of persisting log entries.
+     *
+     * Called periodically by the ScheduledExecutor
+     */
     void persistLogEntries() {
         logger.info("Starting persisting log entries to db");
 
@@ -128,6 +134,13 @@ public class LogService {
         logger.info("Done persisting log {} entries", entryCount);
     }
 
+    /**
+     * Clears the log dir.
+     *
+     * Called after processing all log files in the directory.
+     *
+     * @param logdirPath The path of the directory to clear.
+     */
     private void clearLogDir(String logdirPath) {
         logger.info("Clearing log files from directory.");
 
