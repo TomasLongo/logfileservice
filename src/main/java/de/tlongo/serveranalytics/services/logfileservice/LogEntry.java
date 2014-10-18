@@ -1,9 +1,7 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * Created by Tomas Longo on 18.09.14.
@@ -31,8 +29,7 @@ public class LogEntry {
 
     String agent;
 
-    @Type(type="de.tlongo.serveranalytics.services.logfileservice.LocalDateTimeUserType")
-    LocalDateTime date;
+    Timestamp date;
     int status;
 
     @Override
@@ -65,11 +62,11 @@ public class LogEntry {
         this.agent = agent;
     }
 
-    public LocalDateTime getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

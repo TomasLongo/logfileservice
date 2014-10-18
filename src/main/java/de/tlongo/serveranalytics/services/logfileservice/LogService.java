@@ -1,5 +1,9 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,9 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -43,6 +50,8 @@ public class LogService {
     Logger logger = LoggerFactory.getLogger(LogService.class);
     Properties properties;
 
+    Gson gson;
+
     private long entryCount = 0;
 
     @Autowired
@@ -67,17 +76,36 @@ public class LogService {
 
         initProperties();
 
+        if (properties.getProperty("logfileservice.prettyjson").equals("true")) {
+           gson = new GsonBuilder().setPrettyPrinting().create();
+        } else {
+            gson = new Gson();
+        }
+
         get("/health", (request, response) -> {
             response.status(200);
-            return jsonDocument().
-                        property("message", "LogService Alive!").
-                        property("code", 200).
-                        create().toString();
+            return gson.toJson(jsonDocument().
+                                    property("message", "LogService Alive!").
+                                    property("code", 200).
+                                    create());
         });
-//
-//        get("/entries/currentdate", (request, response) -> {
-//            return "Log Entries from today";
-//        });
+
+        get("/entries/currentdate", (request, response) -> {
+            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+            List<LogEntry> entries = dao.findByDateRange(Timestamp.valueOf(now), Timestamp.valueOf(now.plusDays(1)));
+
+            final JsonObject json = new JsonObject();
+            final JsonArray entryArray = new JsonArray();
+            entries.forEach(entry -> {
+                entryArray.add(entryToJson(entry));
+            });
+
+            json.add("entries", entryArray);
+            json.addProperty("count", entries.size());
+            json.addProperty("status", 200);
+
+            return gson.toJson(json);
+        });
 
         int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
         int startDelay = Integer.parseInt(properties.getProperty("logfileservice.startdelay"));
@@ -85,6 +113,17 @@ public class LogService {
         final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), startDelay, scanIntervall, TimeUnit.HOURS);
     }
 
+    private JsonObject entryToJson(LogEntry entry) {
+        return jsonDocument().
+                property("date", entry.getDate().toString()).
+                property("agent", entry.getAgent()).
+                property("address", entry.getAddress()).
+                property("request-method", entry.getRequestMethod()).
+                property("request-uri", entry.getRequestUri()).
+                property("request-protocol", entry.getRequestProtocol()).
+                property("request-status", entry.getStatus()).
+                create();
+    }
 
     /**
      * Starts the task of persisting log entries.
@@ -107,6 +146,7 @@ public class LogService {
                 Files.newDirectoryStream(new File(logdirPath).toPath()).forEach( path -> {
                     File logFile = path.toFile();
                     if (logFile.isFile() && path.toAbsolutePath().toString().contains("log")) {
+                        logger.info("Processing log file {}", path.toAbsolutePath());
                         try {
                             List<LogEntry> parsedEntries = LogFileParser.parseLogFile(path.toFile());
                             entryCount += parsedEntries.size();
@@ -123,15 +163,15 @@ public class LogService {
         } else {
             logger.info("Processing and persisting log files all at once");
             List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
-            logger.info("Persisting {} entries to db.", logEntryList.size());
             logEntryList.forEach(entry -> {
                 dao.save(entry);
             });
+            entryCount = logEntryList.size();
             clearLogDir(logdirPath);
         }
 
 
-        logger.info("Done persisting log {} entries", entryCount);
+        logger.info("Done persisting {} entries", entryCount);
     }
 
     /**
