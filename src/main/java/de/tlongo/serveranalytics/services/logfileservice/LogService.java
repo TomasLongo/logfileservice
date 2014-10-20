@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import static de.tlongo.serveranalytics.services.logfileservice.JsonBuilder.jsonDocument;
 import static spark.Spark.get;
+import static spark.SparkBase.setIpAddress;
 
 /**
  * Created by tomas on 16.09.14.
@@ -96,6 +97,8 @@ public class LogService {
     }
 
     private void initSpark() {
+        setIpAddress("127.0.0.1");
+        
         get("/health", (request, response) -> {
             response.status(200);
             return gson.toJson(jsonDocument().
