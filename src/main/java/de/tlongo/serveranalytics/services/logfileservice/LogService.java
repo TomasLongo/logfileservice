@@ -82,6 +82,19 @@ public class LogService {
             gson = new Gson();
         }
 
+        initSpark();
+
+        initScheduledPersistence();
+    }
+
+    private void initScheduledPersistence() {
+        int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
+        int startDelay = Integer.parseInt(properties.getProperty("logfileservice.startdelay"));
+        logger.info("Service will scan directory every {} hours", scanIntervall);
+        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), startDelay, scanIntervall, TimeUnit.HOURS);
+    }
+
+    private void initSpark() {
         get("/health", (request, response) -> {
             response.status(200);
             return gson.toJson(jsonDocument().
@@ -106,11 +119,6 @@ public class LogService {
 
             return gson.toJson(json);
         });
-
-        int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
-        int startDelay = Integer.parseInt(properties.getProperty("logfileservice.startdelay"));
-        logger.info("Service will scan directory every {} hours", scanIntervall);
-        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), startDelay, scanIntervall, TimeUnit.HOURS);
     }
 
     private JsonObject entryToJson(LogEntry entry) {
