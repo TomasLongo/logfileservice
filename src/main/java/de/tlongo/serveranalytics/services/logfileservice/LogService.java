@@ -11,7 +11,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -19,16 +22,14 @@ import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static de.tlongo.serveranalytics.services.logfileservice.JsonBuilder.*;
-
-import static spark.Spark.*;
+import static de.tlongo.serveranalytics.services.logfileservice.JsonBuilder.jsonDocument;
+import static spark.Spark.get;
 
 /**
  * Created by tomas on 16.09.14.
@@ -50,9 +51,9 @@ public class LogService {
     Logger logger = LoggerFactory.getLogger(LogService.class);
     Properties properties;
 
-    Gson gson;
+    List<LogEntry> latestProcessingCache = new ArrayList<>();
 
-    private long entryCount = 0;
+    Gson gson;
 
     @Autowired
     LogEntryRepository dao;
@@ -103,18 +104,21 @@ public class LogService {
                                     create());
         });
 
-        get("/entries/currentdate", (request, response) -> {
-            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
-            List<LogEntry> entries = dao.findByDateRange(Timestamp.valueOf(now), Timestamp.valueOf(now.plusDays(1)));
-
+        /**
+         * Returns the entries that were processed by the last regular persistence turn.
+         *
+         * The entries have been cached so that fetching doesnt require a roundtrip to
+         * the db.
+         */
+        get("/entries/latest", (request, response) -> {
             final JsonObject json = new JsonObject();
             final JsonArray entryArray = new JsonArray();
-            entries.forEach(entry -> {
+            latestProcessingCache.forEach(entry -> {
                 entryArray.add(entryToJson(entry));
             });
 
             json.add("entries", entryArray);
-            json.addProperty("count", entries.size());
+            json.addProperty("count", latestProcessingCache.size());
             json.addProperty("status", 200);
 
             return gson.toJson(json);
@@ -141,45 +145,20 @@ public class LogService {
     void persistLogEntries() {
         logger.info("Starting persisting log entries to db");
 
+
         String logdirPath = properties.getProperty("logfileservice.logdir");
-        logger.info("Logfile directory is {}", logdirPath);
+        logger.info("Logfile directory is {}. Start parsing log files.", logdirPath);
 
-        logger.info("Parsing log files");
+        List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
 
-        entryCount = 0;
-
-        if (properties.getProperty("logfileservice.persisting.perLogFile").equals("true")) {
-            logger.info("Processing and persisting log files one by one");
-            try {
-                Files.newDirectoryStream(new File(logdirPath).toPath()).forEach( path -> {
-                    File logFile = path.toFile();
-                    if (logFile.isFile() && path.toAbsolutePath().toString().contains("log")) {
-                        logger.info("Processing log file {}", path.toAbsolutePath());
-                        try {
-                            List<LogEntry> parsedEntries = LogFileParser.parseLogFile(path.toFile());
-                            entryCount += parsedEntries.size();
-                            dao.save(parsedEntries);
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            logger.error("Error parsing logfile", e);
-                        }
-                    }
-                });
-            } catch (IOException e) {
-                logger.error("Error parsing logdir", e);
-            }
-        } else {
-            logger.info("Processing and persisting log files all at once");
-            List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
-            logEntryList.forEach(entry -> {
-                dao.save(entry);
-            });
-            entryCount = logEntryList.size();
+        if (logEntryList.size() > 0) {
+            dao.save(logEntryList);
             clearLogDir(logdirPath);
+            latestProcessingCache = logEntryList;
         }
 
 
-        logger.info("Done persisting {} entries", entryCount);
+        logger.info("Done persisting {} entries", logEntryList.size());
     }
 
     /**
