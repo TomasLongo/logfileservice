@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class LogFileParser {
                     entry.setStatus(-9999);
                 } else {
                     entry.setAddress(tokens[0]);
-                    entry.setDate(LocalDateTime.parse(tokens[1], formatter));
+                    entry.setDate(Timestamp.valueOf(LocalDateTime.parse(tokens[1], formatter)));
                     entry.setStatus(Integer.parseInt(tokens[3]));
                     entry.setAgent(tokens[4]);
 

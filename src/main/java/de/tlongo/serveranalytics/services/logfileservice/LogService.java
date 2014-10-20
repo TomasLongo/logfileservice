@@ -1,31 +1,35 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
-import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static spark.Spark.*;
+import static de.tlongo.serveranalytics.services.logfileservice.JsonBuilder.jsonDocument;
+import static spark.Spark.get;
 
 /**
  * Created by tomas on 16.09.14.
@@ -47,7 +51,9 @@ public class LogService {
     Logger logger = LoggerFactory.getLogger(LogService.class);
     Properties properties;
 
-    private long entryCount = 0;
+    List<LogEntry> latestProcessingCache = new ArrayList<>();
+
+    Gson gson;
 
     @Autowired
     LogEntryRepository dao;
@@ -71,63 +77,97 @@ public class LogService {
 
         initProperties();
 
-//        get("/health", (request, response) -> {
-//            return "LogFileService alive";
-//        });
-//
-//        get("/entries/currentdate", (request, response) -> {
-//            return "Log Entries from today";
-//        });
+        if (properties.getProperty("logfileservice.prettyjson").equals("true")) {
+           gson = new GsonBuilder().setPrettyPrinting().create();
+        } else {
+            gson = new Gson();
+        }
 
-        int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
-        logger.info("Service will scan directory every {} hours", scanIntervall);
-        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), 0, scanIntervall, TimeUnit.HOURS);
+        initSpark();
+
+        initScheduledPersistence();
     }
 
+    private void initScheduledPersistence() {
+        int scanIntervall = Integer.parseInt(properties.getProperty("logfileservice.scanintervall"));
+        int startDelay = Integer.parseInt(properties.getProperty("logfileservice.startdelay"));
+        logger.info("Service will scan directory every {} hours", scanIntervall);
+        final ScheduledFuture<?> persistorHandle = scheduler.scheduleAtFixedRate(() -> persistLogEntries(), startDelay, scanIntervall, TimeUnit.HOURS);
+    }
 
+    private void initSpark() {
+        get("/health", (request, response) -> {
+            response.status(200);
+            return gson.toJson(jsonDocument().
+                                    property("message", "LogService Alive!").
+                                    property("code", 200).
+                                    create());
+        });
+
+        /**
+         * Returns the entries that were processed by the last regular persistence turn.
+         *
+         * The entries have been cached so that fetching doesnt require a roundtrip to
+         * the db.
+         */
+        get("/entries/latest", (request, response) -> {
+            final JsonObject json = new JsonObject();
+            final JsonArray entryArray = new JsonArray();
+            latestProcessingCache.forEach(entry -> {
+                entryArray.add(entryToJson(entry));
+            });
+
+            json.add("entries", entryArray);
+            json.addProperty("count", latestProcessingCache.size());
+            json.addProperty("status", 200);
+
+            return gson.toJson(json);
+        });
+    }
+
+    private JsonObject entryToJson(LogEntry entry) {
+        return jsonDocument().
+                property("date", entry.getDate().toString()).
+                property("agent", entry.getAgent()).
+                property("address", entry.getAddress()).
+                property("request-method", entry.getRequestMethod()).
+                property("request-uri", entry.getRequestUri()).
+                property("request-protocol", entry.getRequestProtocol()).
+                property("request-status", entry.getStatus()).
+                create();
+    }
+
+    /**
+     * Starts the task of persisting log entries.
+     *
+     * Called periodically by the ScheduledExecutor
+     */
     void persistLogEntries() {
         logger.info("Starting persisting log entries to db");
 
+
         String logdirPath = properties.getProperty("logfileservice.logdir");
-        logger.info("Logfile directory is {}", logdirPath);
+        logger.info("Logfile directory is {}. Start parsing log files.", logdirPath);
 
-        logger.info("Parsing log files");
+        List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
 
-        entryCount = 0;
-
-        if (properties.getProperty("logfileservice.persisting.perLogFile").equals("true")) {
-            logger.info("Processing and persisting log files one by one");
-            try {
-                Files.newDirectoryStream(new File(logdirPath).toPath()).forEach( path -> {
-                    File logFile = path.toFile();
-                    if (logFile.isFile() && path.toAbsolutePath().toString().contains("log")) {
-                        try {
-                            List<LogEntry> parsedEntries = LogFileParser.parseLogFile(path.toFile());
-                            entryCount += parsedEntries.size();
-                            dao.save(parsedEntries);
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            logger.error("Error parsing logfile", e);
-                        }
-                    }
-                });
-            } catch (IOException e) {
-                logger.error("Error parsing logdir", e);
-            }
-        } else {
-            logger.info("Processing and persisting log files all at once");
-            List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
-            logger.info("Persisting {} entries to db.", logEntryList.size());
-            logEntryList.forEach(entry -> {
-                dao.save(entry);
-            });
+        if (logEntryList.size() > 0) {
+            dao.save(logEntryList);
             clearLogDir(logdirPath);
+            latestProcessingCache = logEntryList;
         }
 
 
-        logger.info("Done persisting log {} entries", entryCount);
+        logger.info("Done persisting {} entries", logEntryList.size());
     }
 
+    /**
+     * Clears the log dir.
+     *
+     * Called after processing all log files in the directory.
+     *
+     * @param logdirPath The path of the directory to clear.
+     */
     private void clearLogDir(String logdirPath) {
         logger.info("Clearing log files from directory.");
 
