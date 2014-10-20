@@ -8,6 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,6 +50,6 @@ public class TestLogFileParsing {
         assertThat(entry.getRequestProtocol(), equalTo("HTTP/1.1"));
         assertThat(entry.getRequestUri(), equalTo("/"));
         assertThat(entry.getAgent(), equalTo("Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)"));
-        assertThat(entry.getDate(), equalTo(LocalDateTime.parse("22/Sep/2014:02:57:07 +0200", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z"))));
+        assertThat(entry.getDate(), equalTo(Timestamp.valueOf(LocalDateTime.parse("22/Sep/2014:02:57:07 +0200", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z")))));
     }
 }
