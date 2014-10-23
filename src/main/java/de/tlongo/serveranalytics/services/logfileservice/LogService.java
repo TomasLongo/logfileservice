@@ -117,7 +117,9 @@ public class LogService {
             final JsonObject json = new JsonObject();
             final JsonArray entryArray = new JsonArray();
             latestProcessingCache.forEach(entry -> {
-                entryArray.add(entryToJson(entry));
+                if (LogFileParser.isEntryValid(entry)) {
+                    entryArray.add(entryToJson(entry));
+                }
             });
 
             json.add("entries", entryArray);

@@ -4,9 +4,7 @@ import de.tlongo.serveranalytics.services.logfileservice.LogEntry;
 import de.tlongo.serveranalytics.services.logfileservice.LogFileParser;
 import org.junit.Test;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -51,5 +49,15 @@ public class TestLogFileParsing {
         assertThat(entry.getRequestUri(), equalTo("/"));
         assertThat(entry.getAgent(), equalTo("Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)"));
         assertThat(entry.getDate(), equalTo(Timestamp.valueOf(LocalDateTime.parse("22/Sep/2014:02:57:07 +0200", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z")))));
+    }
+
+    @Test
+    public void testParseInvalidEntry() throws Exception {
+        List<LogEntry> list = LogFileParser.parseLogFile(new File("src/test/logdir/fixed/invalidentry.log"));
+
+        assertThat(list, notNullValue());
+        assertThat(list, hasSize(1));
+        assertThat(LogFileParser.isEntryValid(list.get(0)), is(false));
+
     }
 }
