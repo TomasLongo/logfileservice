@@ -161,7 +161,7 @@ public class LogService {
                 List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(path.toAbsolutePath().toString());
                 if (logEntryList.size() > 0) {
                     dao.save(logEntryList);
-                    clearLogDir(logdirPath);
+                    clearLogDir(path.toAbsolutePath().toString());
                     latestProcessingCache = logEntryList;
                 }
 
@@ -169,7 +169,7 @@ public class LogService {
                 logger.info("Done persisting {} entries", logEntryList.size());
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error parsing directory", e);
         }
 
     }
