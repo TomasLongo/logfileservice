@@ -33,7 +33,7 @@ public class LogFileParser {
      *
      * @return A list of LogEntry objects. An empty list if an error occurs.
      */
-    public static List<LogEntry> parseLogFile(File logFile) {
+    public static List<LogEntry> parseLogFile(File logFile, String producingApp) {
         try {
             List<LogEntry> entryList = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new FileReader(logFile));
@@ -55,6 +55,7 @@ public class LogFileParser {
                     entry.setDate(Timestamp.valueOf(LocalDateTime.parse(tokens[1], formatter)));
                     entry.setStatus(Integer.parseInt(tokens[3]));
                     entry.setAgent(tokens[4]);
+                    entry.setProducedBy(producingApp);
 
                     String[] requestTokens = splitRequestString(tokens[2]);
                     if (requestTokens.length != 3) {
@@ -107,7 +108,7 @@ public class LogFileParser {
                 File logFile = new File(path.toAbsolutePath().toString());
                 if (!logFile.isDirectory() && logFile.getName().contains("log")) {
                     logger.info("Parsing logfile {}", logFile.getAbsolutePath());
-                    List<LogEntry> list = parseLogFile(logFile);
+                    List<LogEntry> list = parseLogFile(logFile, dir.toPath().getFileName().toString());
 
                     logEntryList.addAll(list);
                 }

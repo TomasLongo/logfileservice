@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 
 @Entity(name="logentries")
 public class LogEntry {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -31,6 +30,9 @@ public class LogEntry {
 
     Timestamp date;
     int status;
+
+    // Name of the application that produced this entry
+    String producedBy;
 
     @Override
     public String toString() {
@@ -100,5 +102,13 @@ public class LogEntry {
 
     public void setRequestProtocol(String requestProtocol) {
         this.requestProtocol = requestProtocol;
+    }
+
+    public String getProducedBy() {
+        return producedBy;
+    }
+
+    public void setProducedBy(String producedBy) {
+        this.producedBy = producedBy;
     }
 }
