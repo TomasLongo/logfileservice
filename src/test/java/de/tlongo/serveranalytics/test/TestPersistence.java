@@ -72,7 +72,7 @@ public class TestPersistence {
 
     @Test
     public void testPersistParsedFile() throws Exception {
-        List<LogEntry> logEntries = LogFileParser.parseLogFile(new File("src/test/logdir/fixed/access.log.2"));
+        List<LogEntry> logEntries = LogFileParser.parseLogFile(new File("src/test/logdir/fixed/access.log.2"), "Test");
         logEntries.forEach(entry -> {
             repo.save(entry);
         });

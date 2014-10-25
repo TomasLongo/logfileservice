@@ -19,10 +19,9 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -154,16 +153,25 @@ public class LogService {
         String logdirPath = properties.getProperty("logfileservice.logdir");
         logger.info("Logfile directory is {}. Start parsing log files.", logdirPath);
 
-        List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(logdirPath);
+        try {
+            File logDir = new File(logdirPath);
+            Files.newDirectoryStream(logDir.toPath()).forEach(path -> {
+                String appName = path.getFileName().toString();
+                logger.info("Parsing logs produced by '{}'", appName);
+                List<LogEntry> logEntryList = LogFileParser.parseLogDirectory(path.toAbsolutePath().toString());
+                if (logEntryList.size() > 0) {
+                    dao.save(logEntryList);
+                    clearLogDir(logdirPath);
+                    latestProcessingCache = logEntryList;
+                }
 
-        if (logEntryList.size() > 0) {
-            dao.save(logEntryList);
-            clearLogDir(logdirPath);
-            latestProcessingCache = logEntryList;
+
+                logger.info("Done persisting {} entries", logEntryList.size());
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
-        logger.info("Done persisting {} entries", logEntryList.size());
     }
 
     /**
