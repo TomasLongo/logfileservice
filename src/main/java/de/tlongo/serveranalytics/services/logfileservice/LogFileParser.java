@@ -21,6 +21,10 @@ public class LogFileParser {
     static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z");
     private static final List<LogEntry> EMPTY_LIST = new ArrayList<>();
 
+    public static boolean isEntryValid(LogEntry entry) {
+        return entry.getStatus() != -9999;
+    }
+
     /**
      * Parses a nginx log file line by line, extracts information and returns a list
      * of LogEntry objects
