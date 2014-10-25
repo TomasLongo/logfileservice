@@ -31,7 +31,7 @@ public class TestLogFileParsing {
 
         final List<LogEntry> entries = new ArrayList<>();
         Files.newDirectoryStream(new File((String)properties.get("logfileservice.logdir")).toPath()).forEach(path -> {
-           entries.addAll(LogFileParser.parseLogFile(new File(path.toAbsolutePath().toString())));
+           entries.addAll(LogFileParser.parseLogFile(new File(path.toAbsolutePath().toString()), "Test"));
 
         });
 
@@ -53,7 +53,7 @@ public class TestLogFileParsing {
 
     @Test
     public void testParseInvalidEntry() throws Exception {
-        List<LogEntry> list = LogFileParser.parseLogFile(new File("src/test/logdir/fixed/invalidentry.log"));
+        List<LogEntry> list = LogFileParser.parseLogFile(new File("src/test/logdir/invalidentry/invalidentry.log"), "Test");
 
         assertThat(list, notNullValue());
         assertThat(list, hasSize(1));
