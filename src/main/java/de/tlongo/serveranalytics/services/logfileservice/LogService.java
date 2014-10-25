@@ -201,7 +201,7 @@ public class LogService {
                 }
             });
         } catch (IOException e) {
-            logger.error("Error deleting dir {}\n{}", logdirPath, e);
+            logger.error("Error deleting logfiles in directory {}\n{}", logdirPath, e);
         }
 
         logger.info("Done clearing log directory");
