@@ -1,0 +1,65 @@
+192.99.201.182@13/Sep/2014:04:56:55 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; meanpathbot/1.0; +http://www.meanpath.com/meanpathbot.html)
+192.99.201.182@13/Sep/2014:04:56:56 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; meanpathbot/1.0; +http://www.meanpath.com/meanpathbot.html)
+192.99.201.182@13/Sep/2014:04:56:56 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (compatible; meanpathbot/1.0; +http://www.meanpath.com/meanpathbot.html)
+192.99.201.182@13/Sep/2014:04:56:56 +0200@GET / HTTP/1.1@200@Mozilla/5.0 (compatible; meanpathbot/1.0; +http://www.meanpath.com/meanpathbot.html)
+36.226.113.41@13/Sep/2014:05:17:10 +0200@CONNECT mx3.mail2000.com.tw:25 HTTP/1.0@400@-
+188.40.249.84@13/Sep/2014:06:08:48 +0200@GET / HTTP/1.0@301@Mozilla/5.1 (compatible; ADBot/9.0; +http://onlythegames.com)
+188.40.249.84@13/Sep/2014:06:08:48 +0200@GET / HTTP/1.0@200@Mozilla/5.1 (compatible; ADBot/9.0; +http://onlythegames.com)
+188.40.249.84@13/Sep/2014:06:08:48 +0200@GET / HTTP/1.0@301@Mozilla/5.1 (compatible; ADBot/9.0; +http://onlythegames.com)
+188.40.249.84@13/Sep/2014:06:08:48 +0200@GET / HTTP/1.0@301@Mozilla/5.1 (compatible; ADBot/9.0; +http://onlythegames.com)
+192.99.33.150@13/Sep/2014:08:32:05 +0200@GET /jpa-absolute-basics/ HTTP/1.1@301@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+192.99.33.150@13/Sep/2014:08:32:05 +0200@GET /jpa-absolute-basics/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+192.99.33.150@13/Sep/2014:08:32:05 +0200@GET /author/tomas-longo/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+148.251.232.203@13/Sep/2014:09:18:22 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0
+148.251.232.203@13/Sep/2014:09:18:22 +0200@GET / HTTP/1.1@200@Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0
+148.251.232.203@13/Sep/2014:09:18:22 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0
+148.251.232.203@13/Sep/2014:09:18:22 +0200@GET / HTTP/1.1@200@Mozilla/5.0 (Windows NT 6.1; WOW64; rv:30.0) Gecko/20100101 Firefox/30.0
+157.55.39.199@13/Sep/2014:10:28:10 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+157.55.39.199@13/Sep/2014:10:28:11 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+157.55.39.199@13/Sep/2014:10:28:17 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+173.234.181.41@13/Sep/2014:11:00:01 +0200@GET /jpa-absolute-basics/ HTTP/1.1@301@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+173.234.181.41@13/Sep/2014:11:00:03 +0200@GET /jpa-absolute-basics/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+173.234.181.41@13/Sep/2014:11:00:04 +0200@GET /author/tomas-longo/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+213.205.99.247@13/Sep/2014:11:09:20 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+213.205.99.247@13/Sep/2014:11:09:20 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+208.66.72.154@13/Sep/2014:11:19:56 +0200@GET /introducing-the-wizard/ HTTP/1.0@301@Mozilla/5.0 (Windows NT 6.1; rv:26.0) Gecko/20100101 Firefox/26.0
+208.66.72.154@13/Sep/2014:11:19:57 +0200@GET /introducing-the-wizard/ HTTP/1.0@200@Mozilla/5.0 (Windows NT 6.1; rv:26.0) Gecko/20100101 Firefox/26.0
+208.66.72.154@13/Sep/2014:11:19:58 +0200@GET / HTTP/1.0@200@Mozilla/5.0 (Windows NT 6.1; rv:26.0) Gecko/20100101 Firefox/26.0
+162.252.57.128@13/Sep/2014:11:46:06 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+50.62.74.68@13/Sep/2014:16:35:10 +0200@GET /w00tw00t.at.ISC.SANS.Win32:) HTTP/1.1@400@-
+190.221.1.136@13/Sep/2014:18:59:03 +0200@GET /manager/html HTTP/1.1@301@Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0
+180.76.6.45@13/Sep/2014:19:14:53 +0200@GET /public/jquery.min.js HTTP/1.1@301@Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
+162.252.57.128@13/Sep/2014:19:32:17 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+180.76.5.143@13/Sep/2014:19:49:17 +0200@GET /public/jquery.min.js HTTP/1.1@301@Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
+180.76.5.191@13/Sep/2014:19:50:02 +0200@GET /public/jquery.min.js HTTP/1.1@200@Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
+180.76.5.191@13/Sep/2014:19:50:09 +0200@GET /public/jquery.min.js HTTP/1.1@200@Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
+183.252.52.72@13/Sep/2014:20:26:12 +0200@GET /introducing-the-wizard/ HTTP/1.1@301@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+183.252.52.72@13/Sep/2014:20:26:14 +0200@GET /introducing-the-wizard/ HTTP/1.1@200@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+183.252.52.72@13/Sep/2014:20:26:15 +0200@POST /introducing-the-wizard/trackback/ HTTP/1.1@301@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+66.249.69.189@13/Sep/2014:21:25:01 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:21:25:01 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.39@13/Sep/2014:21:25:01 +0200@GET /blog/2014/07/17/the-wizard-dsl/ HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.235@13/Sep/2014:21:25:02 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.235@13/Sep/2014:21:25:02 +0200@GET /blog/2014/07/17/the-wizard-dsl/ HTTP/1.1@404@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.39@13/Sep/2014:22:22:27 +0200@GET /users/password/new HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:22:22:28 +0200@GET /users/password/new HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:22:22:29 +0200@GET /users/password/new/ HTTP/1.1@404@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+213.205.99.247@13/Sep/2014:22:53:53 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+213.205.99.247@13/Sep/2014:22:53:53 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+66.249.78.228@13/Sep/2014:23:19:37 +0200@GET /author/tomas-longo/ HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.120@13/Sep/2014:23:24:52 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:23:24:52 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.120@13/Sep/2014:23:24:52 +0200@GET /author/tomas-longo/ HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:23:25:45 +0200@GET /assets/css/style.css?v=ca8eaf8b4d HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:23:25:45 +0200@GET /assets/js/prism.js?v=ca8eaf8b4d HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.69.22@13/Sep/2014:23:25:46 +0200@GET /assets/js/main.min.js?v=ca8eaf8b4d HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@13/Sep/2014:23:25:46 +0200@GET /public/jquery.min.js?v=ca8eaf8b4d HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.242@13/Sep/2014:23:25:47 +0200@GET /assets/css/prism.css?v=ca8eaf8b4d%22 HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+157.55.39.174@14/Sep/2014:00:29:53 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+157.55.39.174@14/Sep/2014:00:29:54 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+157.55.39.174@14/Sep/2014:00:30:04 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+104.131.193.198@14/Sep/2014:00:32:20 +0200@HEAD / HTTP/1.1@200@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; Netcraft SSL Server Survey - contact info@netcraft.com)
+123.151.149.222@14/Sep/2014:00:34:19 +0200@GET http://www.baidu.com/ HTTP/1.1@301@-
+104.131.193.198@14/Sep/2014:00:45:20 +0200@HEAD / HTTP/1.1@200@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; Netcraft SSL Server Survey - contact info@netcraft.com)
+220.161.116.214@14/Sep/2014:00:55:13 +0200@GET /slf4j-marker-for-better-filtering-your-logging-messages/ HTTP/1.1@301@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
+220.161.116.214@14/Sep/2014:00:55:16 +0200@GET /slf4j-marker-for-better-filtering-your-logging-messages/ HTTP/1.1@200@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
