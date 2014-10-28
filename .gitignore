@@ -4,4 +4,3 @@ build/
 .gradle/
 *.log
 design/
-logdir/

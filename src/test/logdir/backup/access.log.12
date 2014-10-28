@@ -1,0 +1,56 @@
+104.131.255.97@12/Sep/2014:02:57:24 +0200@GET / HTTP/1.0@301@Mozilla/5.0 (compatible; NetcraftSurveyAgent/1.0; +info@netcraft.com)
+212.83.171.78@12/Sep/2014:03:20:26 +0200@HEAD / HTTP/1.0@301@-
+207.46.13.89@12/Sep/2014:05:57:46 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+207.46.13.89@12/Sep/2014:05:57:47 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+207.46.13.89@12/Sep/2014:05:57:51 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+107.144.220.115@12/Sep/2014:07:10:40 +0200@GET / HTTP/1.1@400@-
+62.210.122.144@12/Sep/2014:07:18:24 +0200@GET /jpa-absolute-basics/ HTTP/1.1@301@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36
+62.210.122.144@12/Sep/2014:07:18:24 +0200@GET /jpa-absolute-basics/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36
+62.210.122.144@12/Sep/2014:07:18:24 +0200@GET /author/tomas-longo/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.71 Safari/537.36
+162.243.212.212@12/Sep/2014:07:21:22 +0200@HEAD / HTTP/1.0@301@Mozilla/5.0 (compatible; NetcraftSurveyAgent/1.0; +info@netcraft.com)
+54.211.2.223@12/Sep/2014:07:29:32 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 GTB6 (.NET CLR 3.5.30729)
+66.249.79.78@12/Sep/2014:08:26:48 +0200@GET /author/tomas-longo/ HTTP/1.1@301@Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.14@12/Sep/2014:08:30:02 +0200@GET /author/tomas-longo/ HTTP/1.1@200@Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.22@12/Sep/2014:08:35:51 +0200@GET /public/jquery.min.js?v=fcde4be61e HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.86@12/Sep/2014:08:51:03 +0200@GET /introducing-the-wizard/ HTTP/1.1@301@Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.22@12/Sep/2014:08:51:04 +0200@GET /introducing-the-wizard/ HTTP/1.1@200@Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+109.228.9.10@12/Sep/2014:09:46:38 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+66.249.79.125@12/Sep/2014:12:40:11 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.5@12/Sep/2014:12:40:12 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.125@12/Sep/2014:12:40:12 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.22@12/Sep/2014:12:44:15 +0200@GET /slf4j-marker-for-better-filtering-your-logging-messages/ HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.79.86@12/Sep/2014:12:49:55 +0200@GET /slf4j-marker-for-better-filtering-your-logging-messages/ HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+37.58.100.130@12/Sep/2014:16:20:45 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; AhrefsBot/5.0; +http://ahrefs.com/robot/)
+37.58.100.130@12/Sep/2014:16:20:45 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; AhrefsBot/5.0; +http://ahrefs.com/robot/)
+37.58.100.130@12/Sep/2014:16:20:46 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; AhrefsBot/5.0; +http://ahrefs.com/robot/)
+217.96.18.163@12/Sep/2014:17:24:58 +0200@GET /jpa-absolute-basics/ HTTP/1.1@301@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1
+217.96.18.163@12/Sep/2014:17:24:59 +0200@GET /jpa-absolute-basics/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1
+217.96.18.163@12/Sep/2014:17:24:59 +0200@GET /author/tomas-longo/ HTTP/1.1@200@Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1
+162.252.57.128@12/Sep/2014:18:36:10 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+107.170.62.85@12/Sep/2014:19:56:11 +0200@HEAD / HTTP/1.0@200@Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; Netcraft SSL Server Survey - contact info@netcraft.com)
+213.205.99.247@12/Sep/2014:20:16:10 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+213.205.99.247@12/Sep/2014:20:16:10 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+66.249.78.120@12/Sep/2014:20:17:29 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.228@12/Sep/2014:20:17:30 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.64.90@12/Sep/2014:20:17:30 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.242@12/Sep/2014:20:17:57 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.235@12/Sep/2014:20:17:57 +0200@GET / HTTP/1.1@200@Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+207.46.13.89@12/Sep/2014:20:31:13 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+207.46.13.89@12/Sep/2014:20:31:14 +0200@GET /robots.txt HTTP/1.1@200@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+207.46.13.89@12/Sep/2014:20:32:42 +0200@GET / HTTP/1.1@301@Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
+1.161.31.252@12/Sep/2014:23:14:22 +0200@\x04\x01\x00\x19\xCBER\x22\x00@400@-
+1.161.31.252@12/Sep/2014:23:14:23 +0200@\x05\x01\x00@400@-
+1.161.31.252@12/Sep/2014:23:14:24 +0200@CONNECT mx2.mail2000.com.tw:25 HTTP/1.0@400@-
+69.174.245.163@13/Sep/2014:00:07:07 +0200@GET /phpMyAdmin/scripts/setup.php HTTP/1.1@301@ZmEu
+69.174.245.163@13/Sep/2014:00:07:07 +0200@GET /myadmin/scripts/setup.php HTTP/1.1@301@ZmEu
+69.174.245.163@13/Sep/2014:00:07:07 +0200@GET /pma/scripts/setup.php HTTP/1.1@301@ZmEu
+69.174.245.163@13/Sep/2014:00:07:07 +0200@GET /w00tw00t.at.blackhats.romanian.anti-sec:) HTTP/1.1@301@ZmEu
+69.174.245.163@13/Sep/2014:00:07:07 +0200@GET /MyAdmin/scripts/setup.php HTTP/1.1@301@ZmEu
+69.174.245.163@13/Sep/2014:00:07:07 +0200@GET /phpmyadmin/scripts/setup.php HTTP/1.1@301@ZmEu
+200.252.29.37@13/Sep/2014:00:51:03 +0200@GET /w00tw00t.at.ISC.SANS.DFind:) HTTP/1.1@400@-
+66.249.78.113@13/Sep/2014:00:59:12 +0200@GET /duynpewaiou.html HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.64.86@13/Sep/2014:00:59:14 +0200@GET /duynpewaiou.html HTTP/1.1@301@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+66.249.78.242@13/Sep/2014:00:59:14 +0200@GET /duynpewaiou.html/ HTTP/1.1@404@Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+180.76.6.28@13/Sep/2014:01:04:54 +0200@GET /robots.txt HTTP/1.1@301@Mozilla/5.0 (Windows NT 5.1; rv:6.0.2) Gecko/20100101 Firefox/6.0.2
+180.76.6.140@13/Sep/2014:01:07:41 +0200@GET /assets/js/main.min.js HTTP/1.1@301@Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
+180.76.5.155@13/Sep/2014:01:07:42 +0200@GET /assets/js/main.min.js HTTP/1.1@200@Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)
