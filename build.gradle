@@ -39,10 +39,27 @@ installApp {
 }
 
 distZip {
+    archiveName = "${project.name}.zip"
+    ext.versionFileName ="${version}.version"
+    ext.versionFile = file(versionFileName)
+
     // copy the configs to external folder
-    into("$baseName-$version/lib/config") {
+    into("$baseName/lib/config") {
         from 'src/main/resources'
         include '*'
+    }
+
+    into("$baseName") {
+        from "${project.projectDir.toPath().toAbsolutePath().toString()}"
+        include versionFileName
+    }
+
+    doFirst {
+        versionFile.createNewFile()
+    }
+
+    doLast {
+        versionFile.delete()
     }
 }
 
