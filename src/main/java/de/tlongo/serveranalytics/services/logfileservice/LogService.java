@@ -1,9 +1,6 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +16,16 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static de.tlongo.serveranalytics.services.logfileservice.JsonBuilder.jsonDocument;
 import static spark.Spark.get;
@@ -126,6 +126,32 @@ public class LogService {
             json.addProperty("status", 200);
 
             return gson.toJson(json);
+        });
+
+        /**
+         * Get logs by id.
+         *
+         * Returns a jsonDocument
+         */
+        get("/entries", (request, response) -> {
+            String ids = request.queryParams("ids");
+
+            if (ids.isEmpty()) {
+                response.status(404);
+                return jsonDocument().
+                        property("code", 400).
+                        property("message", "Can not fetch data. Params not good").
+                        string();
+            }
+
+            List<Long> longIds = Arrays.stream(ids.split(",")).map(stringId -> Long.parseLong(stringId)).collect(Collectors.toCollection(ArrayList::new));
+            List<LogEntry> logEntries = dao.findAll(longIds);
+
+            String jsonEntries = logEntries.stream().map(entry -> gson.toJson(entry)).collect(Collectors.joining(","));
+
+            String finalJson = "{\"entries\":[" + jsonEntries + "], \"count\":" + logEntries.size() + " }";
+
+            return finalJson;
         });
     }
 
