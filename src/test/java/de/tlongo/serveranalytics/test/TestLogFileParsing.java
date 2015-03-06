@@ -2,10 +2,8 @@ package de.tlongo.serveranalytics.test;
 
 import de.tlongo.serveranalytics.services.logfileservice.LogEntry;
 import de.tlongo.serveranalytics.services.logfileservice.LogFileParser;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -57,7 +55,7 @@ public class TestLogFileParsing {
 
     @Test
     public void testParseInvalidEntry() throws Exception {
-        List<LogEntry> list = LogFileParser.parseLogFile(new ClassPathResource("/logdir/fixed/invalidentry.log").getFile(), "Test");
+        List<LogEntry> list = LogFileParser.parseLogFile(new ClassPathResource("/logdir/fixed/invalidentry.log.1").getFile(), "Test");
 
         assertThat(list, notNullValue());
         assertThat(list, hasSize(1));
