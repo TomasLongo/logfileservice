@@ -1,5 +1,6 @@
 package de.tlongo.serveranalytics.test;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
@@ -13,6 +14,7 @@ import java.util.Properties;
 /**
  * Created by tomas on 18.09.14.
  */
+@Ignore
 public class LearnTests {
 
     @Test
