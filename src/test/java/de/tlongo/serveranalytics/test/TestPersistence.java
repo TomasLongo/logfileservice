@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,7 +18,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -34,28 +37,9 @@ public class TestPersistence {
     @Autowired
     LogEntryRepository repo;
 
-    @Autowired
-    FooRepo fooRepo;
-
     @Before
     public void clearDatabase() {
         repo.deleteAll();
-    }
-
-    @Test
-    @Ignore
-    public void testDatePersistence() throws Exception {
-        fooRepo.deleteAll();
-
-        LocalDateTime current = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        Foo foo = new Foo(current);
-        foo = fooRepo.save(foo);
-
-        Foo fetched = fooRepo.findOne(foo.id);
-        assertThat(fetched, notNullValue());
-        assertThat(fetched.date, equalTo(current));
-
-        System.out.println(fetched.date.toString());
     }
 
     @Test
@@ -103,8 +87,8 @@ public class TestPersistence {
 
     @Test
     public void testFindByDateRange() throws Exception {
-        String dir = new ClassPathResource("/logdir/fixed").getFile().toPath().normalize().toAbsolutePath().toString();
-        List<LogEntry> logEntries = LogFileParser.parseLogDirectory(dir);
+        String dir = new ClassPathResource("/logdir/fixed/access.log.2").getFile().toPath().normalize().toAbsolutePath().toString();
+        List<LogEntry> logEntries = LogFileParser.parseLogFile(new File(dir), "test");
         logEntries.forEach(entry -> {
             repo.save(entry);
         });
@@ -124,5 +108,34 @@ public class TestPersistence {
         entries = repo.findByDateRange(start, end);
         assertThat(entries, notNullValue());
         assertThat(entries, hasSize(73));
+    }
+
+    @Test
+    public void testFindByIdList() throws Exception {
+        String logfile = new ClassPathResource("/logdir/fixed/access.log.3").getFile().toPath().toAbsolutePath().normalize().toString();
+        List<LogEntry> logEntries = LogFileParser.parseLogFile(new File(logfile), "test");
+        repo.save(logEntries);
+
+        String idList = logEntries.stream().
+                            map(entry -> String.valueOf(entry.getId())).
+                            collect(Collectors.joining(","));
+
+        System.out.println("<<<" + idList + ">>>");
+
+        List<Long> longIds = Arrays.stream(idList.split(",")).map(stringid -> Long.parseLong(stringid)).collect(Collectors.toCollection(ArrayList::new));
+
+        idList = longIds.stream().
+                map(longId -> longId.toString()).
+                collect(Collectors.joining(","));
+
+        System.out.println("<<<" + idList + ">>>");
+
+        long now = System.currentTimeMillis();
+        List<LogEntry> finalFetch = repo.findAll(longIds);
+        double time = (double)(System.currentTimeMillis() - now) / 1000.0;
+        System.out.println("TIME: " + time);
+
+        assertThat(finalFetch, hasSize(logEntries.size()));
+        assertThat(finalFetch, equalTo(logEntries));
     }
 }

@@ -30,15 +30,11 @@ public class TestLogFileParsing {
         stream.close();
 
 
-        final List<LogEntry> entries = new ArrayList<>();
-        File logdir = new ClassPathResource("/logdir/fixed").getFile();
-        Files.newDirectoryStream(logdir.toPath()).forEach(path -> {
-           entries.addAll(LogFileParser.parseLogFile(new File(path.toAbsolutePath().toString()), "Test"));
-
-        });
+        File logdir = new ClassPathResource("/logdir/fixed/oneentry.log.3").getFile();
+        List<LogEntry> entries = LogFileParser.parseLogFile(logdir, "test");
 
         assertThat(entries, notNullValue());
-        assertThat(entries.size(), is(80));
+        assertThat(entries.size(), is(1));
 
         // Check the first to see if the LogEntry object was built correctly
         // 202.46.57.65@22/Sep/2014:02:57:07 +0200@GET / HTTP/1.1@301@Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)
