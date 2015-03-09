@@ -1,6 +1,9 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
 import com.google.gson.*;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,6 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,11 +60,33 @@ public class LogService {
     @Autowired
     LogEntryRepository dao;
 
+    private Channel channel;
+
     public static void main(String[] args) throws IOException {
         ApplicationContext springContext = new ClassPathXmlApplicationContext("/springdataconfig.xml");
 
         LogService service = springContext.getBean(LogService.class);
         service.startService();
+    }
+
+    private void initRabbit() {
+        try {
+            String exchangeName = properties.getProperty("logfileservice.messaging.exchange");
+            String queueName = properties.getProperty("logfileservice.messaging.queue.latest");
+
+            logger.info("Initialising the rabbit with a direct exchange ({}) sending messages to queue {}", exchangeName, queueName);
+
+            Connection connection = new ConnectionFactory().newConnection();
+            channel = connection.createChannel();
+            channel.exchangeDeclare(exchangeName, "direct");
+            channel.queueDeclare(queueName, false, false, true, null);
+            channel.queueBind(queueName, exchangeName, "");
+
+            logger.info("RabbitMQ client is ready to use");
+        } catch (IOException e) {
+            logger.error("Error creating connection to RabbitMQ Server", e);
+            throw new RuntimeException("Could not establish connection to RabbitMQ");
+        }
     }
 
     private void startService() throws IOException {
@@ -86,6 +110,8 @@ public class LogService {
         initSpark();
 
         initScheduledPersistence();
+
+        initRabbit();
     }
 
     private void initScheduledPersistence() {
@@ -189,8 +215,12 @@ public class LogService {
                     dao.save(logEntryList);
                     clearLogDir(path.toAbsolutePath().toString());
                     latestProcessingCache = logEntryList;
-                }
 
+                    List<Long> ids = latestProcessingCache.stream().
+                                            map(entry -> entry.getId()).
+                                            collect(Collectors.toCollection(ArrayList::new));
+                    publishIds(ids);
+                }
 
                 logger.info("Done persisting {} entries", logEntryList.size());
             });
@@ -198,6 +228,17 @@ public class LogService {
             logger.error("Error parsing directory", e);
         }
 
+    }
+
+    private void publishIds(List<Long> ids) {
+        String idList = ids.stream().map(id -> String.valueOf(id)).collect(Collectors.joining(","));
+        try {
+            logger.info("Publishing list of ids ({}) to queue", idList);
+            channel.basicPublish("logservice.direct", "", null, idList.getBytes());
+        } catch (IOException e) {
+            logger.error("Error publishing list of ids ({})", idList);
+            throw new RuntimeException("Error publishing list of Ids");
+        }
     }
 
     /**
