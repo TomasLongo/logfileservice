@@ -1,5 +1,6 @@
 package de.tlongo.serveranalytics.services.logfileservice;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -9,6 +10,8 @@ import com.google.gson.JsonPrimitive;
  */
 public class JsonBuilder {
     JsonObject json;
+
+    private static Gson gson = new Gson();
 
     private JsonBuilder() {
         json = new JsonObject();
@@ -56,6 +59,10 @@ public class JsonBuilder {
 
     public JsonObject create() {
         return json;
+    }
+
+    public String string() {
+        return gson.toJson(json);
     }
 
     public static JsonBuilder jsonDocument() {
