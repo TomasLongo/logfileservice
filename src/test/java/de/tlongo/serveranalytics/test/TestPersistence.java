@@ -87,8 +87,8 @@ public class TestPersistence {
 
     @Test
     public void testFindByDateRange() throws Exception {
-        String dir = new ClassPathResource("/logdir/fixed").getFile().toPath().normalize().toAbsolutePath().toString();
-        List<LogEntry> logEntries = LogFileParser.parseLogDirectory(dir);
+        String dir = new ClassPathResource("/logdir/fixed/access.log.2").getFile().toPath().normalize().toAbsolutePath().toString();
+        List<LogEntry> logEntries = LogFileParser.parseLogFile(new File(dir), "test");
         logEntries.forEach(entry -> {
             repo.save(entry);
         });
@@ -112,7 +112,8 @@ public class TestPersistence {
 
     @Test
     public void testFindByIdList() throws Exception {
-        List<LogEntry> logEntries = LogFileParser.parseLogDirectory("src/test/logdir/fixed");
+        String logfile = new ClassPathResource("/logdir/fixed/access.log.3").getFile().toPath().toAbsolutePath().normalize().toString();
+        List<LogEntry> logEntries = LogFileParser.parseLogFile(new File(logfile), "test");
         repo.save(logEntries);
 
         String idList = logEntries.stream().
